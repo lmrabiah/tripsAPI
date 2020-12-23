@@ -7,6 +7,8 @@ const { localStrategy, jwtStrategy } = require("./middleware/passport");
 const userRoutes = require("./routes/users");
 const bodyParser = require("body-parser");
 const app = express();
+const path = require("path");
+const profileRoutes = require("./routes/profile");
 
 // Middleware
 
@@ -18,13 +20,17 @@ passport.use(jwtStrategy);
 
 app.use(userRoutes);
 
+// Routes
+app.use("/profile", profileRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
+
 app.get("/", (req, res) => {
   console.log("HELLO");
   res.json({ message: "Hello World" });
 });
 const run = async () => {
   try {
-    await db.sequelize.authenticate();
+    await db.sequelize.sync({ alter: true });
     console.log("Connection to the database successful!");
     await app.listen(8000, () => {
       console.log("The application is running on localhost:8000");
