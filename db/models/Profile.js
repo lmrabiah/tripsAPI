@@ -1,12 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
   const Profile = sequelize.define("Profile", {
-    profileImage: {
+    image: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
     bio: {
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
     },
   });
   return Profile;

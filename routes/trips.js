@@ -7,6 +7,7 @@ const {
   updateTrip,
 } = require("../controllers/tripController");
 const passport = require("passport");
+const upload = require("../middleware/multer");
 const router = express.Router();
 
 router.param("tripId", async (req, res, next, tripId) => {
@@ -24,7 +25,12 @@ router.param("tripId", async (req, res, next, tripId) => {
 });
 router.get("/", tripsList);
 
-router.post("/", passport.authenticate("jwt", { session: false }), creatTrip);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  creatTrip
+);
 
 router.delete(
   "/:tripId",
@@ -35,7 +41,7 @@ router.delete(
 router.put(
   "/:tripId",
   passport.authenticate("jwt", { session: false }),
-  // upload.single("img"),
+  upload.single("image"),
   updateTrip
 );
 
