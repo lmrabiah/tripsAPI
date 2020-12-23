@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { User } = require("../db/models");
+const { User, Profile } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const { JWT_EXPIRATION_MS, JWT_SECRET } = require("../config/keys");
 
@@ -17,7 +17,9 @@ exports.signup = async (req, res, next) => {
       exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
-    res.status(201).json({ token });
+    req.body.userId = newUser.id;
+    const newProfile = await Profile.create(req.body);
+    res.status(201).json({ token, newProfile });
   } catch (error) {
     next(error);
   }

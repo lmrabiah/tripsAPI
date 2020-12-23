@@ -12,9 +12,9 @@ exports.fetchTrip = async (tripId, next) => {
 exports.creatTrip = async (req, res, next) => {
   console.log(req.user);
   try {
-    // if (req.file) {
-    //   req.body.img = `http://${req.get("host")}/media/${req.file.filename}`;
-    // }
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
 
     //req.body.userId this is the relation cell
     req.body.UserID = req.user.id;
@@ -47,9 +47,11 @@ exports.deletTrip = async (req, res, next) => {
 
 exports.updateTrip = async (req, res, next) => {
   try {
-    //   if (req.file) {
-    //     req.body.img = `http://${req.get("host")}/media/${req.file.filename}`;
-    //   }
+    if (req.file) {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      }
+    }
     await req.trip.update(req.body);
     res.status(204).end();
   } catch (error) {

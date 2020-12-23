@@ -12,9 +12,10 @@ const path = require("path");
 const profileRoutes = require("./routes/profile");
 
 // Middleware
-
+console.log("__dirname ", __dirname);
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);

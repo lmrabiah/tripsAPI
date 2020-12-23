@@ -42,7 +42,8 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-////
+
+///Relation 1
 db.User.hasMany(db.Trip, {
   as: "trips",
   foreignKey: { fieldName: "UserID" },
@@ -52,11 +53,11 @@ db.Trip.belongsTo(db.User, {
   as: "users",
   foreignKey: { fieldName: "UserID" },
 });
-
 ///
 
-// Relations
+/// Relations 2
 db.User.hasOne(db.Profile, { as: "Profile", foreignKey: "userId" });
 db.Profile.belongsTo(db.User, { as: "user" });
+///
 
 module.exports = db;

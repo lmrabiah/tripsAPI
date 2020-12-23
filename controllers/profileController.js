@@ -20,19 +20,6 @@ exports.fetchProfile = async (profileId, next) => {
   }
 };
 
-exports.profileCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-    }
-    req.body.userId = req.user.id;
-    const newProfile = await Profile.create(req.body);
-    res.status(201).json(newProfile);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.profileUpdate = async (req, res, next) => {
   try {
     if (req.file) {
