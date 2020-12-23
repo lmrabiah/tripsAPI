@@ -8,6 +8,8 @@ const userRoutes = require("./routes/users");
 const tripsRoutes = require("./routes/trips");
 const bodyParser = require("body-parser");
 const app = express();
+const path = require("path");
+const profileRoutes = require("./routes/profile");
 
 // Middleware
 
@@ -19,6 +21,10 @@ passport.use(jwtStrategy);
 
 app.use(userRoutes);
 app.use("/trips", tripsRoutes);
+
+// Routes
+app.use("/profile", profileRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.get("/", (req, res) => {
   console.log("HELLO");
