@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 const run = async () => {
   try {
     await db.sequelize.authenticate();
-    console.log("Connection to the database successful!");
+    console.log("Connection ssto the database successful!");
     await app.listen(8000, () => {
       console.log("The application is running on localhost:8000");
     });
