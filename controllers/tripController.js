@@ -17,7 +17,7 @@ exports.creatTrip = async (req, res, next) => {
     }
 
     //req.body.userId this is the relation cell
-    req.body.UserID = req.user.id;
+    req.body.userId = req.user.id;
     const newTrip = await Trip.create(req.body);
     res.status(201).json(newTrip);
   } catch (error) {
@@ -46,15 +46,16 @@ exports.deletTrip = async (req, res, next) => {
 };
 
 exports.updateTrip = async (req, res, next) => {
-  try {
+  if (req.user.id === req.trip.userId) {
     if (req.file) {
-      if (req.file) {
-        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
-      }
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
+
     await req.trip.update(req.body);
     res.status(204).end();
-  } catch (error) {
-    next(error);
+  } else {
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
   }
 };

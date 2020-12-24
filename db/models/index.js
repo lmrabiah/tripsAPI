@@ -46,12 +46,12 @@ db.Sequelize = Sequelize;
 ///Relation 1
 db.User.hasMany(db.Trip, {
   as: "trips",
-  foreignKey: { fieldName: "UserID" },
+  foreignKey: { fieldName: "userId" },
 });
 
 db.Trip.belongsTo(db.User, {
   as: "users",
-  foreignKey: { fieldName: "UserID" },
+  foreignKey: { fieldName: "userId" },
 });
 ///
 
