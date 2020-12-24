@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 const {
   profile,
@@ -24,6 +25,11 @@ router.param("profileId", async (req, res, next, profileId) => {
 
 router.get("/", profile);
 
-router.put("/:profileId", upload.single("image"), profileUpdate);
+router.put(
+  "/:profileId",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  profileUpdate
+);
 
 module.exports = router;

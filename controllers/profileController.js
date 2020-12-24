@@ -21,13 +21,17 @@ exports.fetchProfile = async (profileId, next) => {
 };
 
 exports.profileUpdate = async (req, res, next) => {
-  try {
+  if (req.user.id === req.profile.userId) {
     if (req.file) {
-      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      req.body.image = `${req.protocol}://${req.get("host")}/media/${
+        req.file.filename
+      }`;
     }
     await req.profile.update(req.body);
     res.status(204).end();
-  } catch (err) {
-    next(error);
+  } else {
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
   }
 };
