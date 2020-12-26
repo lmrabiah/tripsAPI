@@ -50,7 +50,7 @@ db.User.hasMany(db.Trip, {
 });
 
 db.Trip.belongsTo(db.User, {
-  as: "users",
+  as: "user",
   foreignKey: { fieldName: "userId" },
 });
 ///
