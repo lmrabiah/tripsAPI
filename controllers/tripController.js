@@ -1,4 +1,4 @@
-const { Trip } = require("../db/models");
+const { Trip, User } = require("../db/models");
 
 exports.fetchTrip = async (tripId, next) => {
   try {
@@ -29,6 +29,13 @@ exports.tripsList = async (req, res, next) => {
   try {
     const trips = await Trip.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id"],
+        },
+      ],
     });
     res.json(trips);
   } catch (error) {
