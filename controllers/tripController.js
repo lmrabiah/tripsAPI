@@ -44,11 +44,13 @@ exports.tripsList = async (req, res, next) => {
 };
 
 exports.deletTrip = async (req, res, next) => {
-  try {
+  if (req.user.id === req.trip.userId) {
     await req.trip.destroy();
     res.status(204).end();
-  } catch (error) {
-    next(error);
+  } else {
+    const err = new Error("Unauthorized");
+    err.status = 401;
+    next(err);
   }
 };
 
