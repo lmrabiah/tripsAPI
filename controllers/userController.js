@@ -22,13 +22,17 @@ exports.signup = async (req, res, next) => {
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
     req.body.userId = newUser.id;
-    const newProfile = await Profile.create(req.body);
-    res.status(201).json({ token, newProfile });
+    const userProfile = await Profile.create(req.body);
+    res.status(201).json({ token, userProfile });
   } catch (error) {
     next(error);
   }
 };
+
+exports.signin = async (req, res) => {
+
 exports.signin = (req, res, next) => {
+
   try {
     const { user } = req;
     const payload = {
@@ -46,7 +50,16 @@ exports.signin = (req, res, next) => {
       ],
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
+
+    const userProfile = await Profile.findOne({
+      where: {
+        userId: user.id,
+      },
+    });
+    res.json({ token, userProfile });
+
     res.json({ token, rel });
+
   } catch (error) {
     next(error);
   }
