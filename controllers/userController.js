@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { User, Profile } = require("../db/models");
+const { User, Profile, Trip } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const { JWT_EXPIRATION_MS, JWT_SECRET } = require("../config/keys");
 
@@ -14,10 +14,11 @@ exports.signup = async (req, res, next) => {
     const payload = {
       id: newUser.id,
       username: newUser.username,
-      exp: Date.now() + JWT_EXPIRATION_MS,
+      massage: "wooow",
       email: newUser.email,
       firstName: newUser.firstName,
       lastName: newUser.lastName,
+      exp: Date.now() + JWT_EXPIRATION_MS,
     };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
     req.body.userId = newUser.id;
@@ -27,7 +28,11 @@ exports.signup = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.signin = async (req, res) => {
+
+exports.signin = (req, res, next) => {
+
   try {
     const { user } = req;
     const payload = {
@@ -35,13 +40,26 @@ exports.signin = async (req, res) => {
       username: user.username,
       exp: Date.now() + 900000,
     };
+    const rel = {
+      include: [
+        {
+          model: Trip,
+          as: "trips",
+          attributes: ["id"],
+        },
+      ],
+    };
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
+
     const userProfile = await Profile.findOne({
       where: {
         userId: user.id,
       },
     });
     res.json({ token, userProfile });
+
+    res.json({ token, rel });
+
   } catch (error) {
     next(error);
   }
