@@ -29,10 +29,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.signin = async (req, res) => {
-
-exports.signin = (req, res, next) => {
-
+exports.signin = async (req, res, next) => {
   try {
     const { user } = req;
     const payload = {
@@ -57,9 +54,6 @@ exports.signin = (req, res, next) => {
       },
     });
     res.json({ token, userProfile });
-
-    res.json({ token, rel });
-
   } catch (error) {
     next(error);
   }
