@@ -35,3 +35,12 @@ exports.profileUpdate = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.fetchProfileGuest = async (profileId, next) => {
+  try {
+    const profileGuest = await profileGuest.findByPk(profileId);
+    return profileGuest;
+  } catch (error) {
+    next(error);
+  }
+};
