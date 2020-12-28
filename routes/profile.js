@@ -25,6 +25,9 @@ router.param("profileId", async (req, res, next, profileId) => {
 
 router.get("/", profile);
 
+// you don't need profile ID in the URL
+// get the profile of the logged in user
+// ask me about it when you apply this change.
 router.put(
   "/:profileId",
   passport.authenticate("jwt", { session: false }),

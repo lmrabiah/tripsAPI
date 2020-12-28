@@ -12,6 +12,11 @@ const path = require("path");
 const profileRoutes = require("./routes/profile");
 const profileGuestRoutes = require("./routes/profile");
 
+/**
+ * REMOVE ALL CONSOLE LOGS BEFORE MERGING TO MAIN
+ * REMOVE ALL COMMENTED CODE YOU WON'T USE
+ */
+
 // Middleware
 console.log("__dirname ", __dirname);
 app.use(cors());
