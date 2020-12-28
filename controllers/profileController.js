@@ -38,8 +38,8 @@ exports.profileUpdate = async (req, res, next) => {
 
 exports.fetchProfileGuest = async (profileId, next) => {
   try {
-    const profileGuest = await profileGuest.findByPk(profileId);
-    return profileGuest;
+    const profile = await Profile.findByPk(profileId);
+    return profile;
   } catch (error) {
     next(error);
   }
