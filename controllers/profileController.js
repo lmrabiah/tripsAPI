@@ -38,7 +38,8 @@ exports.profileUpdate = async (req, res, next) => {
 
 exports.fetchProfileGuest = async (profileId, next) => {
   try {
-    const profileGuest = await profileGuest.findByPk(profileId);
+    // you don't have a model called `profileGuest`, you have a model called `Profile`.
+    const profileGuest = await Profile.findByPk(profileId);
     return profileGuest;
   } catch (error) {
     next(error);

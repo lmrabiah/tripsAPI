@@ -37,6 +37,8 @@ exports.signin = async (req, res, next) => {
       username: user.username,
       exp: Date.now() + 900000,
     };
+
+    // this `rel` isn't being used, remove it.
     const rel = {
       include: [
         {
