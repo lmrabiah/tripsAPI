@@ -1,9 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
   const Trip = sequelize.define("Trip", {
-    // username: {
-    //   type: DataTypes.STRING,
-    //   // allowNull: false,
-    // },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
