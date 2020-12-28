@@ -33,7 +33,7 @@ exports.tripsList = async (req, res, next) => {
         {
           model: User,
           as: "user",
-          attributes: ["id"],
+          attributes: ["id", "username"],
         },
       ],
     });

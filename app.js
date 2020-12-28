@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const path = require("path");
 const profileRoutes = require("./routes/profile");
+const profileGuestRoutes = require("./routes/profile");
 
 // Middleware
 console.log("__dirname ", __dirname);
@@ -26,6 +27,7 @@ app.use("/trips", tripsRoutes);
 // Routes
 app.use("/profile", profileRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
+app.use("/profile/guest", profileGuestRoutes);
 
 app.get("/", (req, res) => {
   console.log("HELLO");
