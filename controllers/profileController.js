@@ -21,22 +21,33 @@ exports.fetchProfile = async (profileId, next) => {
 };
 
 exports.profileUpdate = async (req, res, next) => {
-  if (req.user.id === req.profile.userId) {
-    if (req.file) {
-      req.body.image = `${req.protocol}://${req.get("host")}/media/${
-        req.file.filename
-      }`;
+  try {
+    const foundProfile = await Profile.findByPk(req.user.id);
+    // If profile exists
+    if (foundProfile) {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      }
+      await foundProfile.update(req.body);
+      res.status(204).end();
+    } else {
+      res.status(404).json({ message: "Profile not found" });
     }
-    await req.profile.update(req.body);
-    res.status(204).end();
-  } else {
-    const err = new Error("Unauthorized");
-    err.status = 401;
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
 exports.fetchProfileGuest = async (profileId, next) => {
+  try {
+    const profile = await Profile.findByPk(profileId);
+    return profile;
+  } catch (error) {
+    // next(error);
+  }
+};
+
+exports.fetchProfile = async (profileId, next) => {
   try {
     const profile = await Profile.findByPk(profileId);
     return profile;
