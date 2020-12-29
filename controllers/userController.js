@@ -37,15 +37,7 @@ exports.signin = async (req, res, next) => {
       username: user.username,
       exp: Date.now() + 900000,
     };
-    const rel = {
-      include: [
-        {
-          model: Trip,
-          as: "trips",
-          attributes: ["id"],
-        },
-      ],
-    };
+
     const token = jwt.sign(JSON.stringify(payload), JWT_SECRET);
 
     const userProfile = await Profile.findOne({

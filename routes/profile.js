@@ -40,7 +40,7 @@ router.get("/", fetchProfileGuest);
 router.get("/", profile);
 
 router.put(
-  "/:profile",
+  "/",
   passport.authenticate("jwt", { session: false }),
   upload.single("image"),
   profileUpdate
