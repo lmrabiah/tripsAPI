@@ -1,9 +1,14 @@
-const { Profile } = require("../db/models");
+const { Profile, User } = require("../db/models");
 
 exports.profile = async (req, res, next) => {
   try {
     const profiles = await Profile.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["username"],
+      },
     });
     res.json(profiles);
   } catch (error) {
@@ -22,7 +27,7 @@ exports.fetchProfile = async (profileId, next) => {
 
 exports.profileUpdate = async (req, res, next) => {
   try {
-    const foundProfile = await Profile.findByPk(req.user.id);
+    const foundProfile = await Profile.findByPk(req.user.id); //BUG
     // If profile exists
     if (foundProfile) {
       if (req.file) {
@@ -38,12 +43,17 @@ exports.profileUpdate = async (req, res, next) => {
   }
 };
 
-exports.fetchProfileGuest = async (profileId, next) => {
+exports.fetchProfileGuest = async (req, res, next) => {
   try {
-    const profile = await Profile.findByPk(profileId);
-    return profile;
+    const { userId } = req.params;
+    const profile = await Profile.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    res.json(profile);
   } catch (error) {
-    // next(error);
+    next(error);
   }
 };
 
